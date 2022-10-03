@@ -1,4 +1,4 @@
-# acapp
+# app
 
 ## Project setup
 ```

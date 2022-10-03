@@ -9,29 +9,29 @@ export class Snake extends AcGameObject {
         this.color = info.color;
         this.gamemap = gamemap;
 
-        this.cells = [new Cell(info.r, info.c)];  
-        this.next_cell = null;  
+        this.cells = [new Cell(info.r, info.c)];  // 
+        this.next_cell = null;  // 
 
-        this.speed = 5;  // 蛇每秒走5个格子
-        this.direction = -1;  // -1 means invalid, 0, 1, 2, 3 means up, right, down, left 
-        this.status = "idle";  // {"idle", "die", "move"}
+        this.speed = 5;  
+        this.direction = -1; 
+        this.status = "idle";  
 
         this.dr = [-1, 0, 1, 0];  
         this.dc = [0, 1, 0, -1];  
 
-        this.step = 0; 
-        this.eps = 1e-2;  
+        this.step = 0;  
+        this.eps = 1e-3;  
 
         this.eye_direction = 0;
-        if (this.id === 1) this.eye_direction = 2;  // initialize eye direction
+        if (this.id === 1) this.eye_direction = 2;  
 
-        this.eye_dx = [  // dx for snake eyes
+        this.eye_dx = [  // for snake eyes
             [-1, 1],
             [1, 1],
             [1, -1],
             [-1, -1],
         ];
-        this.eye_dy = [  // dy for snake eyes
+        this.eye_dy = [  
             [-1, -1],
             [-1, 1],
             [1, 1],
@@ -47,27 +47,23 @@ export class Snake extends AcGameObject {
         this.direction = d;
     }
 
-    check_tail_increasing() {  
+    check_tail_increasing() {  // check if the size of snake is increasing
         if (this.step <= 10) return true;
         if (this.step % 3 === 1) return true;
         return false;
     }
 
-    next_step() {  
+    next_step() {  // move to next step
         const d = this.direction;
         this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
         this.eye_direction = d;
-        this.direction = -1;  
+        this.direction = -1;  // reset
         this.status = "move";
         this.step ++ ;
 
         const k = this.cells.length;
         for (let i = k; i > 0; i -- ) {
             this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
-        }
-
-        if (!this.gamemap.check_valid(this.next_cell)) {  
-            this.status = "die";
         }
     }
 
@@ -76,8 +72,8 @@ export class Snake extends AcGameObject {
         const dy = this.next_cell.y - this.cells[0].y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < this.eps) {  // done moving
-            this.cells[0] = this.next_cell;  // add head
+        if (distance < this.eps) {  
+            this.cells[0] = this.next_cell;  
             this.next_cell = null;
             this.status = "idle";  
 
@@ -85,7 +81,7 @@ export class Snake extends AcGameObject {
                 this.cells.pop();
             }
         } else {
-            const move_distance = this.speed * this.timedelta / 1000; 
+            const move_distance = this.speed * this.timedelta / 1000;  
             this.cells[0].x += move_distance * dx / distance;
             this.cells[0].y += move_distance * dy / distance;
 

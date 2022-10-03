@@ -1,6 +1,6 @@
 <template>
   <NavBar />
-  <router-view/>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -11,13 +11,16 @@ import "bootstrap/dist/js/bootstrap"
 export default {
   components: {
     NavBar
-}
+  },
+  setup() {
+
+  }
 }
 </script>
 
 <style>
-  body {
-    background-image: url("./assets/images/bg.png");
-    background-size: cover;
-  }
+body {
+  background-image: url("./assets/images/bg.png");
+  background-size: cover;
+}
 </style>
